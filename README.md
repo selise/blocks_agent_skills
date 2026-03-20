@@ -10,47 +10,65 @@ No CS degree. No years of experience. Just you, an AI agent, and a clear set of 
 
 ---
 
-## What is vibe coding?
+## Get started in 3 steps
 
-Vibe coding means telling an AI what you want to build, and the AI writes the code, sets up the infrastructure, and deploys it — while you stay in control of the decisions. You describe the outcome. The agent figures out the how.
+### Step 1 — Open your terminal
 
-It's not magic. It's a new skill. And it's much easier to learn than traditional programming — because you're working *with* the AI as a partner, not learning syntax by yourself.
+Your terminal is where you talk to your computer with text commands. Don't worry — you'll only need a handful of them.
+
+**On Mac:** Press `Cmd + Space`, type `Terminal`, press `Enter`
+
+**On Windows:** Press the `Windows key`, type `Terminal`, press `Enter`. If that doesn't work, press `Win + R`, type `cmd`, and press `Enter`.
+
+That's the black (or white) window where you'll run the commands below.
 
 ---
 
-## What is an agentic engineer?
+### Step 2 — Install Claude Code
 
-An agentic engineer is someone who uses AI agents as their primary tool to build software. Instead of writing every line of code manually, they:
+Claude Code is the AI coding agent that does the work. Paste this into your terminal and press `Enter`:
 
-- Give the agent clear instructions
-- Review and guide what the agent produces
-- Make decisions about what to build and why
-- Ship things — fast
+```bash
+npm install -g @anthropic-ai/claude-code
+```
 
-You don't need to be a programmer to become an agentic engineer. You need curiosity, clear thinking, and the right tools. This repo is one of those tools.
+If you see `npm: command not found`, you need to install Node.js first. Download it from [nodejs.org](https://nodejs.org) — choose the LTS version, run the installer, then try the command above again.
+
+---
+
+### Step 3 — Add these skills to Claude Code
+
+Paste this into your terminal and press `Enter`:
+
+```bash
+git clone https://github.com/selise/blocks-agent-skills ~/.claude/skills/blocks-agent-skills
+```
+
+If you see `git: command not found`:
+- **Mac:** Run `xcode-select --install` and follow the popup, then try again
+- **Windows:** Download Git from [git-scm.com/download/win](https://git-scm.com/download/win), install it, restart your terminal, then try again
+
+Once the clone finishes, the skills are ready. Claude Code picks them up automatically.
+
+---
+
+### Now tell the agent what you want to build
+
+Open a folder for your project, start Claude Code, and just say:
+
+> "Use the blocks-get-started skill to help me set everything up"
+
+The agent will guide you through creating a GitHub account, a Blocks Cloud project, and getting your first app live. No prior knowledge needed — it asks you for what it needs as it goes.
 
 ---
 
 ## What you can build with this
 
-Using these skills, your AI coding agent can:
-
-- Take any HTML file and wrap it in a password-protected web app
-- Deploy it to a real domain (`*.seliseblocks.com`) on production infrastructure
-- Set up login, MFA, and account activation for your users
-- Invite users by email so they can sign up and get access
-
-All of this runs on [SELISE Blocks Cloud](https://cloud.seliseblocks.com) — a platform that handles authentication, user management, and deployment infrastructure so you don't have to build it yourself.
-
----
-
-## What kind of apps are we talking about?
-
-Everything here is a **single HTML file** — which sounds limiting but really isn't. Here are ideas to get your brain going:
+Everything here is a **single HTML file**. That sounds limiting — it really isn't. Your AI agent generates the whole file. Here are ideas to spark something:
 
 ### Browser games
 - A word guessing game (like Wordle) for your friend group, with a leaderboard
-- A trivia quiz app where each user logs in and tracks their own score
+- A trivia quiz where each user logs in and tracks their own score
 - A multiplayer rock-paper-scissors game with a live scoreboard
 - A memory card matching game with difficulty levels
 - A typing speed test with personal best tracking
@@ -60,7 +78,7 @@ Everything here is a **single HTML file** — which sounds limiting but really i
 - A team KPI dashboard that pulls from a public API and visualizes trends
 - A stock or crypto price watcher with your own watchlist
 - A habit tracker with streaks, charts, and weekly summaries
-- A website uptime monitor that checks your links and shows a status board
+- A website uptime monitor that shows a live status board
 
 ### Content and knowledge tools
 - A password-protected team wiki or internal FAQ page
@@ -70,7 +88,7 @@ Everything here is a **single HTML file** — which sounds limiting but really i
 - A private journal or mood diary, locked behind your Blocks login
 
 ### Business and productivity tools
-- A client-facing project status page with login for each client
+- A client-facing project status page with individual logins per client
 - A simple CRM — track leads, add notes, filter by stage
 - A meeting notes archive for your team, searchable and organized by date
 - An employee onboarding checklist app with progress tracking
@@ -84,21 +102,21 @@ Everything here is a **single HTML file** — which sounds limiting but really i
 - A retirement savings calculator with scenario modeling
 
 ### Fun and community tools
-- A wishlist app you share with family before the holidays
+- A wishlist app to share with family before the holidays
 - A bracket tournament app for your office fantasy league
 - A secret Santa organizer — participants log in and see their assignment
-- A poll or voting tool for teams that want something lighter than Slack polls
+- A poll or voting tool lighter than Slack polls
 - A shared playlist curator where friends submit songs and vote on them
 
-The pattern: **one HTML file + Blocks auth + a deployed domain = a real working app with real user accounts.** Your AI agent builds the whole thing. You just describe what you want.
+The pattern: **one HTML file + Blocks auth + a deployed domain = a real working app with real user accounts.** Your AI agent builds the whole thing. You describe what you want.
 
 ---
 
 ## This repo is for fast, fun building — here's the honest caveat
 
-Single-file HTML apps are great for getting things shipped quickly. They are **not** the right choice for apps that handle sensitive personal data, financial transactions, or anything that needs serious security auditing. The auth here is real, but the architecture is intentionally simple.
+Single-file HTML apps are perfect for getting things shipped quickly and learning as you go. They are **not** the right choice for apps that handle sensitive personal data, financial transactions, or anything that needs serious security auditing. The auth is real, but the architecture is intentionally simple.
 
-**Once you've built a few things and caught the bug**, you'll naturally want more structure — proper component architecture, better state management, mobile apps, and so on. That's the natural progression.
+**Once you've built a few things and caught the bug**, you'll naturally want more structure — proper component architecture, better state management, mobile apps. That's the natural progression, and it's a fun one.
 
 When you're ready to level up, SELISE Blocks has production-ready templates that use the same authentication infrastructure but with proper frameworks:
 
@@ -124,55 +142,6 @@ These give you everything this repo gives you, plus proper security patterns, te
 
 ---
 
-## How to use these skills with Claude Code
-
-### 1. Install Claude Code
-
-Claude Code is Anthropic's AI coding agent that runs in your terminal. Install it with:
-
-```bash
-npm install -g @anthropic-ai/claude-code
-```
-
-You need [Node.js](https://nodejs.org) installed first. If you don't have it, download it from nodejs.org — it takes 2 minutes.
-
-### 2. Add these skills to Claude Code
-
-Clone this repo into your Claude Code skills directory:
-
-```bash
-git clone https://github.com/julianweber/blocks-agent-skills ~/.claude/skills/blocks-agent-skills
-```
-
-Or add it via the Claude Code settings. Skills in `~/.claude/skills/` are automatically available in every project.
-
-### 3. Tell the agent to use a skill
-
-Open your project folder in the terminal, start Claude Code, and just say:
-
-> "Use the blocks-get-started skill to help me set everything up"
-
-or
-
-> "Add Blocks auth to my index.html using the blocks-add-auth skill"
-
-The agent reads the skill, asks you for the things it needs, and does the work.
-
----
-
-## Start here if you are brand new
-
-Run through these in order:
-
-1. **[blocks-get-started](./blocks-get-started/SKILL.md)** — GitHub account, Git in your terminal, Blocks Cloud project
-2. **[blocks-add-auth](./blocks-add-auth/SKILL.md)** — Add login to your HTML app
-3. **[blocks-deploy-html](./blocks-deploy-html/SKILL.md)** — Put it live on the internet
-4. **[blocks-add-selfsignup](./blocks-add-selfsignup/SKILL.md)** — Enable self-registration so users can sign up themselves
-
-Each skill is a plain text file. Your AI agent reads it and knows exactly what to do. You just answer its questions.
-
----
-
 ## Frequently asked questions
 
 **Do I need to know how to code?**
@@ -189,6 +158,25 @@ Yes. The skills in this repo are MIT licensed. SELISE Blocks Cloud has its own t
 
 **What if I get stuck?**
 Ask your AI agent. Paste the error message and say "what's wrong?" — it will diagnose and fix it. If you're still stuck, open an issue in this repo.
+
+---
+
+## What is vibe coding?
+
+Vibe coding means telling an AI what you want to build, and the AI writes the code, sets up the infrastructure, and deploys it — while you stay in control of the decisions. You describe the outcome. The agent figures out the how.
+
+It's not magic. It's a new skill. And it's much easier to learn than traditional programming — because you're working *with* the AI as a partner, not learning syntax by yourself.
+
+## What is an agentic engineer?
+
+An agentic engineer is someone who uses AI agents as their primary tool to build software. Instead of writing every line of code manually, they:
+
+- Give the agent clear instructions
+- Review and guide what the agent produces
+- Make decisions about what to build and why
+- Ship things — fast
+
+You don't need to be a programmer to become an agentic engineer. You need curiosity, clear thinking, and the right tools. This repo is one of those tools.
 
 ---
 
