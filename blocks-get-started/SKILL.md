@@ -168,9 +168,9 @@ You now have everything in place. Here is what your AI coding agent can do for y
 
 | I want to... | Use this skill |
 |---|---|
-| Add login/password protection to my HTML app | `blocks-add-auth` |
+| Add login, MFA, and invite users by email | `blocks-add-auth` |
 | Deploy my HTML app to my Blocks domain | `blocks-deploy-html` |
-| Invite users to my app by email | `blocks-add-selfsignup` |
+| Let users sign themselves up (with reCAPTCHA) | `blocks-add-selfsignup` |
 
 To use a skill, just tell your AI coding agent:
 

@@ -1,6 +1,6 @@
 ---
 name: blocks-add-auth
-description: Add Blocks login, MFA, and account activation to any single-file HTML app. Use when you want to password-protect an HTML tool using SELISE Blocks Cloud authentication.
+description: Add Blocks login, MFA, account activation, and user invitations to any single-file HTML app. Use when you want to password-protect an HTML tool using SELISE Blocks Cloud authentication and invite users by email.
 argument-hint: "[x-blocks-key] [app-domain] [tool-name]"
 disable-model-invocation: true
 ---
@@ -200,6 +200,43 @@ Make sure the existing app has a `bootApp()` function (or rename the call to mat
 
 ---
 
+## Step 4 — Invite Users
+
+Once the app is live, you grant access by inviting users from Blocks Cloud. Each invited user receives an activation email and sets their own password.
+
+### How to invite a user
+
+1. Go to [Blocks Cloud](https://cloud.seliseblocks.com) → select your project
+2. Open **Access Manager → Users**
+3. Click **Invite User**
+4. Enter the user's **email address** and assign a **role**
+5. Click **Send Invitation**
+
+The user receives an email with a link in this format:
+```
+https://{app-domain}/activate?code={activation-code}&lang=en-US
+```
+They click it, set a password, and can log in immediately.
+
+### How to re-invite a user
+
+If the link expired or the email was missed:
+1. Go to **Access Manager → Users**
+2. Find the user (status shows `Pending`)
+3. Click **Resend Invitation**
+
+### Invite flow checklist
+
+Before inviting real users, test with yourself:
+1. Invite your own email
+2. Click the activation link from the email
+3. Confirm the **Set Your Password** screen appears
+4. Set a password and verify login works
+
+If the activation screen does not appear, check that `nginx.conf` has `try_files $uri $uri/ /index.html` — see `blocks-deploy-html`.
+
+---
+
 ## Common Mistakes
 
 | Mistake | Symptom | Fix |
@@ -209,3 +246,4 @@ Make sure the existing app has a `bootApp()` function (or rename the call to mat
 | `credentials: 'include'` missing | Auth cookies not sent | Required on every Blocks fetch call |
 | `preventPostEvent: true` missing | Activation fails silently | Always include in activate body |
 | Login/activation overlay `display` not `none` in HTML | Flash of login UI before JS runs | Set `style="display:none"` in the HTML |
+| Activation link goes to 404 | Missing `try_files` in nginx.conf | Add `try_files $uri $uri/ /index.html` — see `blocks-deploy-html` |

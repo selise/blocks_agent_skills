@@ -49,9 +49,9 @@ All of this runs on [SELISE Blocks Cloud](https://cloud.seliseblocks.com) — a 
 | Skill | What it does |
 |-------|-------------|
 | [`blocks-get-started`](./blocks-get-started/SKILL.md) | Set up GitHub, Git, and a Blocks project from zero — perfect if this is your first time |
-| [`blocks-add-auth`](./blocks-add-auth/SKILL.md) | Add Blocks login, MFA, and account activation to any HTML file |
+| [`blocks-add-auth`](./blocks-add-auth/SKILL.md) | Add Blocks login, MFA, account activation, and admin user invitations to any HTML file |
 | [`blocks-deploy-html`](./blocks-deploy-html/SKILL.md) | Deploy an HTML app to Blocks Cloud using Docker and GitHub Actions |
-| [`blocks-add-selfsignup`](./blocks-add-selfsignup/SKILL.md) | Invite users by email so they can activate their accounts and sign in |
+| [`blocks-add-selfsignup`](./blocks-add-selfsignup/SKILL.md) | Enable self-registration with Google reCAPTCHA so users can sign up themselves |
 
 ---
 
@@ -98,7 +98,7 @@ Run through these in order:
 1. **[blocks-get-started](./blocks-get-started/SKILL.md)** — GitHub account, Git in your terminal, Blocks Cloud project
 2. **[blocks-add-auth](./blocks-add-auth/SKILL.md)** — Add login to your HTML app
 3. **[blocks-deploy-html](./blocks-deploy-html/SKILL.md)** — Put it live on the internet
-4. **[blocks-add-selfsignup](./blocks-add-selfsignup/SKILL.md)** — Invite your first users
+4. **[blocks-add-selfsignup](./blocks-add-selfsignup/SKILL.md)** — Enable self-registration so users can sign up themselves
 
 Each skill is a plain text file. Your AI agent reads it and knows exactly what to do. You just answer its questions.
 
