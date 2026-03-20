@@ -52,13 +52,36 @@ Once the clone finishes, the skills are ready. Claude Code picks them up automat
 
 ---
 
-### Now tell the agent what you want to build
+### Now start building
 
-Open a folder for your project, start Claude Code, and just say:
+**1. Create a folder for your project.**
 
-> "Use the blocks-get-started skill to help me set everything up"
+In your terminal, paste these two commands one at a time and press `Enter` after each:
 
-The agent will guide you through creating a GitHub account, a Blocks Cloud project, and getting your first app live. No prior knowledge needed — it asks you for what it needs as it goes.
+```bash
+mkdir my-first-app
+cd my-first-app
+```
+
+`mkdir` creates the folder. `cd` moves you into it. You can call it anything — just no spaces in the name.
+
+**2. Start Claude Code.**
+
+```bash
+claude
+```
+
+You'll see Claude start up in your terminal. It may ask you to log in with your Anthropic account the first time — follow the prompts.
+
+**3. Tell it what you want.**
+
+Once Claude is running, just type this and press `Enter`:
+
+> Use the blocks-get-started skill to help me set everything up
+
+Claude will read the skill and take it from there. It will ask you questions one step at a time — things like your email, your project name, what you want to build. You just answer in plain English. No commands to memorize, no syntax to learn.
+
+When you're done with Claude Code, type `/exit` and press `Enter` to close it.
 
 ---
 
