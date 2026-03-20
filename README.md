@@ -24,15 +24,27 @@ That's the black (or white) window where you'll run the commands below.
 
 ---
 
-### Step 2 — Install Claude Code
+### Step 2 — Get a Claude account and install Claude Code
 
-Claude Code is the AI coding agent that does the work. Paste this into your terminal and press `Enter`:
+Claude Code is the AI coding agent that does the work. It needs a Claude account to run.
+
+**First — get access to Claude Code:**
+
+The easiest option is a **Claude.ai Pro subscription** at [claude.ai](https://claude.ai) ($20/month). Sign up, then come back here.
+
+If you'd rather pay per use instead of a monthly fee, you can use an **API key** from [console.anthropic.com](https://console.anthropic.com) instead. Create an account, add a small amount of credit, and generate an API key — you'll paste it in when Claude Code asks for it the first time.
+
+**Then — install Claude Code:**
+
+Paste this into your terminal and press `Enter`:
 
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
 
 If you see `npm: command not found`, you need to install Node.js first. Download it from [nodejs.org](https://nodejs.org) — choose the LTS version, run the installer, then try the command above again.
+
+**When you first run `claude`**, it opens your browser and walks you through logging in with your Claude.ai account (or asks for your API key). It only does this once — after that it just starts up.
 
 ---
 
@@ -71,7 +83,7 @@ cd my-first-app
 claude
 ```
 
-You'll see Claude start up in your terminal. It may ask you to log in with your Anthropic account the first time — follow the prompts.
+You'll see Claude start up in your terminal.
 
 **3. Tell it what you want.**
 
