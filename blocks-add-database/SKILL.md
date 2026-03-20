@@ -1,5 +1,5 @@
 ---
-name: blocks-datagateway
+name: blocks-add-database
 description: Store and retrieve application data using the SELISE Blocks DataGateway (GraphQL). Use when you need a managed cloud database for your app — no backend required. Covers schema creation in Blocks Cloud, access control, publishing, and making GraphQL queries/mutations from any frontend or backend.
 argument-hint: "[x-blocks-key] [project-slug]"
 disable-model-invocation: true
