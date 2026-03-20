@@ -171,6 +171,7 @@ You now have everything in place. Here is what your AI coding agent can do for y
 | Add login, MFA, and invite users by email | `blocks-add-auth` |
 | Deploy my HTML app to my Blocks domain | `blocks-deploy-html` |
 | Let users sign themselves up (with reCAPTCHA) | `blocks-add-selfsignup` |
+| Store and retrieve app data (no backend needed) | `blocks-datagateway` |
 
 To use a skill, just tell your AI coding agent:
 

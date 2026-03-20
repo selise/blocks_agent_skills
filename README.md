@@ -174,6 +174,7 @@ These give you everything this repo gives you, plus proper security patterns, te
 | [`blocks-add-auth`](./blocks-add-auth/SKILL.md) | Add Blocks login, MFA, account activation, and admin user invitations to any HTML file |
 | [`blocks-deploy-html`](./blocks-deploy-html/SKILL.md) | Deploy an HTML app to Blocks Cloud using Docker and GitHub Actions |
 | [`blocks-add-selfsignup`](./blocks-add-selfsignup/SKILL.md) | Enable self-registration with Google reCAPTCHA so users can sign up themselves |
+| [`blocks-datagateway`](./blocks-datagateway/SKILL.md) | Store and retrieve app data via the Blocks DataGateway (GraphQL) — no backend required |
 
 ---
 
