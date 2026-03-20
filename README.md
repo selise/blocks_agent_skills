@@ -44,6 +44,75 @@ All of this runs on [SELISE Blocks Cloud](https://cloud.seliseblocks.com) — a 
 
 ---
 
+## What kind of apps are we talking about?
+
+Everything here is a **single HTML file** — which sounds limiting but really isn't. Here are ideas to get your brain going:
+
+### Browser games
+- A word guessing game (like Wordle) for your friend group, with a leaderboard
+- A trivia quiz app where each user logs in and tracks their own score
+- A multiplayer rock-paper-scissors game with a live scoreboard
+- A memory card matching game with difficulty levels
+- A typing speed test with personal best tracking
+
+### Dashboards and data tools
+- A personal finance tracker where family members log in and track shared expenses
+- A team KPI dashboard that pulls from a public API and visualizes trends
+- A stock or crypto price watcher with your own watchlist
+- A habit tracker with streaks, charts, and weekly summaries
+- A website uptime monitor that checks your links and shows a status board
+
+### Content and knowledge tools
+- A password-protected team wiki or internal FAQ page
+- A recipe collection app where your household logs in and adds meals
+- A book or movie tracker — log what you've read/watched, rate it, share with friends
+- A travel planning board where a group can pin destinations and vote
+- A private journal or mood diary, locked behind your Blocks login
+
+### Business and productivity tools
+- A client-facing project status page with login for each client
+- A simple CRM — track leads, add notes, filter by stage
+- A meeting notes archive for your team, searchable and organized by date
+- An employee onboarding checklist app with progress tracking
+- A small inventory tracker for a physical store or warehouse
+
+### Financial calculators and tools
+- A mortgage or loan repayment calculator with amortization breakdown
+- A freelance rate calculator — input hours, expenses, taxes, get your ideal day rate
+- A SaaS pricing model simulator to test revenue projections
+- A currency converter with historical comparison charts
+- A retirement savings calculator with scenario modeling
+
+### Fun and community tools
+- A wishlist app you share with family before the holidays
+- A bracket tournament app for your office fantasy league
+- A secret Santa organizer — participants log in and see their assignment
+- A poll or voting tool for teams that want something lighter than Slack polls
+- A shared playlist curator where friends submit songs and vote on them
+
+The pattern: **one HTML file + Blocks auth + a deployed domain = a real working app with real user accounts.** Your AI agent builds the whole thing. You just describe what you want.
+
+---
+
+## This repo is for fast, fun building — here's the honest caveat
+
+Single-file HTML apps are great for getting things shipped quickly. They are **not** the right choice for apps that handle sensitive personal data, financial transactions, or anything that needs serious security auditing. The auth here is real, but the architecture is intentionally simple.
+
+**Once you've built a few things and caught the bug**, you'll naturally want more structure — proper component architecture, better state management, mobile apps, and so on. That's the natural progression.
+
+When you're ready to level up, SELISE Blocks has production-ready templates that use the same authentication infrastructure but with proper frameworks:
+
+- **React** → [blocks-construct-react](https://github.com/SELISEdigitalplatforms/blocks-construct-react) — a full React starter with Blocks auth pre-wired, routing, and component structure
+- **Angular** — a full Angular template with the same Blocks integration
+- **Flutter** — build iOS and Android apps backed by Blocks auth
+- **NativeScript** — cross-platform native mobile with JavaScript
+
+These give you everything this repo gives you, plus proper security patterns, testable components, and the structure needed for production-grade software.
+
+**But don't start there.** Start here. Build something small. Ship it. Show someone. Then level up when you're ready. The best way to learn is to have something real to show for it.
+
+---
+
 ## Skills in this repo
 
 | Skill | What it does |
