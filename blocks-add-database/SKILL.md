@@ -135,7 +135,7 @@ query {
 4. An empty result with no errors means everything is wired up correctly
 
 **GraphQL naming rules** (important — the gateway is strict about these):
-- Query: `get` + SchemaName + `s` → `getTodoItems`
+- Query: `get` + SchemaName + `s` → `getTodoItems` (Note the mandatory 's')
 - Insert mutation: `insert` + SchemaName → `insertTodoItem`
 - Update mutation: `update` + SchemaName → `updateTodoItem`
 - Delete mutation: `delete` + SchemaName → `deleteTodoItem`
@@ -384,7 +384,7 @@ The `referrerPolicy: 'no-referrer'` trick is safe and is the pattern used in the
 | `401` on delete with what looks like a valid token | Token is from Blocks Cloud UI session (`aud: cloud.seliseblocks.com`); DataGateway requires project-scoped token (`aud: your-slug.seliseblocks.com`) | Use a token obtained via your project's own IDP login |
 | `400` + `The field 'Filter' does not exist on type XUpdateInput` | Filter was placed inside the input object | Move filter to a separate mutation argument: `updateX(filter: "...", input: $input)` |
 | `400` + `field X does not exist on type YInsertInput` | Field not in schema, or schema not published after adding it | Add field in Blocks Cloud → Save → Publish |
-| `400` + `Cannot query field X` | Field name typo or wrong schema name in query | Check exact names in Blocks Cloud → Data Gateway |
+| `400` + `Cannot query field X` | Field name typo, wrong schema name, or missing 's' in query (e.g. `getGameScore` instead of `getGameScores`) | Check exact names in Blocks Cloud → Data Gateway |
 | `400` + `Variable "$input" of required type "XInsertInput!" was not provided` | Missing `variables` in the fetch body | Ensure `body: JSON.stringify({ query, variables })` |
 | `200` but `result.data` is null | GraphQL error — check `result.errors[0].message` | Log full response before parsing |
 | Bulk delete only removes one record | `deleteX(filter: "{}")` deletes exactly one document per call regardless of filter | Loop the delete call N times (once per record); fetch totalCount first to know N |
@@ -399,5 +399,12 @@ At the end of this skill the user should have:
 - [ ] Access control set correctly for their use case
 - [ ] A working `gatewayRequest` helper in their codebase
 - [ ] At least one query and one mutation tested against real data
+
+---
+
+## Step 10 — Troubleshooting & Patterns
+
+For advanced troubleshooting, authentication pitfalls (like 'audience' claim errors), and strict GraphQL naming conventions, refer to the detailed guide:
+[blocks_datagateway_patterns.md](./blocks_datagateway_patterns.md)
 
 If anything fails, re-read the error from the response body — the DataGateway always returns a descriptive message in `errors[0].message`.
