@@ -59,6 +59,8 @@ Present the proposed schema to the user and confirm before proceeding.
 
 ## Step 3 — Create the schema in Blocks Cloud
 
+> **Prefer to skip the UI?** Use the `blocks-schema-from-curl` sub-skill — paste one authenticated cURL from your browser and the agent calls the API directly to create, configure, and publish the schema for you.
+
 Tell the user to perform these steps manually in their browser:
 
 1. Go to **[https://cloud.seliseblocks.com](https://cloud.seliseblocks.com)** and log in
@@ -153,15 +155,28 @@ Generate working code for the user's tech stack. Use the credentials from Step 1
 const GATEWAY_ENDPOINT = 'https://api.seliseblocks.com/uds/v1/{project-slug}/gateway';
 const BLOCKS_KEY = '{x-blocks-key}';
 
-async function gatewayRequest(query, variables = {}) {
+// accessToken: optional JWT from the app's auth session
+// ALWAYS pass credentials:'omit' — without it, the browser auto-sends session cookies from
+// the *.seliseblocks.com domain. The DataGateway then evaluates the cookie token (which is
+// the cloud-admin token with aud:cloud.seliseblocks.com) instead of your Bearer header and
+// returns 401 or 400. credentials:'omit' prevents cookie interference entirely.
+async function gatewayRequest(query, variables = null, accessToken = null) {
+  const headers = {
+    'Content-Type': 'application/json',
+    'x-blocks-key': BLOCKS_KEY,
+  };
+  if (accessToken) {
+    headers['Authorization'] = `Bearer ${accessToken}`;
+  }
+
+  const body = variables ? { query, variables } : { query };
+
   const response = await fetch(GATEWAY_ENDPOINT, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-blocks-key': BLOCKS_KEY,
-    },
-    referrerPolicy: 'no-referrer', // required for local dev — suppresses Origin header
-    body: JSON.stringify({ query, variables }),
+    headers,
+    credentials: 'omit',           // prevents cookie-token interference on *.seliseblocks.com
+    referrerPolicy: 'no-referrer', // suppresses Origin header — required for localhost dev
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {
@@ -217,10 +232,13 @@ async function createItem(fieldOne, fieldTwo) {
 }
 
 // --- Update example ---
+// IMPORTANT: `filter` is a SEPARATE argument to the mutation, NOT a field inside the input object.
+// Putting Filter inside the input will produce: "The field `Filter` does not exist on XUpdateInput"
 async function updateItem(itemId, fieldOne) {
+  const filter = JSON.stringify(JSON.stringify({ _id: itemId })); // double-stringify for inline GraphQL
   const mutation = `
     mutation($input: YourSchemaNameUpdateInput!) {
-      updateYourSchemaName(input: $input) {
+      updateYourSchemaName(filter: ${filter}, input: $input) {
         acknowledged
         totalImpactedData
       }
@@ -228,10 +246,7 @@ async function updateItem(itemId, fieldOne) {
   `;
 
   const data = await gatewayRequest(mutation, {
-    input: {
-      Filter: JSON.stringify({ _id: itemId }),
-      FieldOne: fieldOne,
-    },
+    input: { FieldOne: fieldOne },
   });
 
   return data.updateYourSchemaName.acknowledged;
@@ -328,27 +343,19 @@ def gateway_request(query: str, variables: dict = None):
 
 If the schema requires **Logged in users** access, the request must include a JWT.
 
-On a Blocks-hosted frontend the browser automatically sends the auth cookie — no extra headers needed.
+> **Do NOT rely on the browser auto-sending the Blocks cookie.** When you add `credentials: 'omit'` (required to prevent cookie interference — see Step 7), the browser no longer sends any cookies. Pass the token explicitly in all cases.
 
-For local development or server-to-server calls, pass the token explicitly:
+The JWT is available in the cookie named `access_token_{x-blocks-key}` after the user logs in via Blocks IDP. For apps that implement their own auth flow, store the token in memory or `localStorage` at login time.
+
+Pass it via the `accessToken` parameter of `gatewayRequest`:
 
 ```javascript
-async function gatewayRequestAuth(query, variables = {}, accessToken) {
-  const response = await fetch(GATEWAY_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-blocks-key': BLOCKS_KEY,
-      'Authorization': `Bearer ${accessToken}`,
-    },
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify({ query, variables }),
-  });
-  // ...
-}
+const data = await gatewayRequest(mutation, variables, myStoredAccessToken);
 ```
 
-The JWT is available in the cookie named `access_token_{x-blocks-key}` after the user logs in via Blocks IDP.
+> **Delete operations always require authentication** — even if `deleteAccessLevel` is set to `2` (Public). The DataGateway returns `AUTH_NOT_AUTHENTICATED` for delete regardless of the access level setting. Always pass a valid Bearer token for delete mutations.
+
+> **Token audience matters**: the token must be scoped to your game/project (`aud: your-slug.seliseblocks.com`). A Blocks Cloud admin token (`aud: cloud.seliseblocks.com`) will be rejected by the DataGateway with a 401. Use only tokens obtained by logging in through your project's IDP endpoint, not from the Blocks Cloud UI session.
 
 ---
 
@@ -371,11 +378,16 @@ The `referrerPolicy: 'no-referrer'` trick is safe and is the pattern used in the
 | Error | Cause | Fix |
 |-------|-------|-----|
 | `406 Invalid_Origin_Or_Referer` | Browser sending `Origin: http://localhost` | Add `referrerPolicy: 'no-referrer'` |
-| `401 Unauthorized` (empty body) | Schema access is "Logged in users" but no token sent | Change access to Public or send a Bearer token |
+| `401 Unauthorized` or `400` on any request | Browser cookie from `*.seliseblocks.com` domain sent automatically; DataGateway evaluates the cookie token (cloud-admin, wrong audience) over your Bearer header | Add `credentials: 'omit'` to every fetch call |
+| `401 Unauthorized` (empty body) | Schema access is "Logged in users" but no token sent | Pass a valid project-scoped Bearer token |
+| `AUTH_NOT_AUTHENTICATED` on delete | Delete always requires auth even with `deleteAccessLevel: 2` | Pass a project-scoped Bearer token for all delete mutations |
+| `401` on delete with what looks like a valid token | Token is from Blocks Cloud UI session (`aud: cloud.seliseblocks.com`); DataGateway requires project-scoped token (`aud: your-slug.seliseblocks.com`) | Use a token obtained via your project's own IDP login |
+| `400` + `The field 'Filter' does not exist on type XUpdateInput` | Filter was placed inside the input object | Move filter to a separate mutation argument: `updateX(filter: "...", input: $input)` |
 | `400` + `field X does not exist on type YInsertInput` | Field not in schema, or schema not published after adding it | Add field in Blocks Cloud → Save → Publish |
 | `400` + `Cannot query field X` | Field name typo or wrong schema name in query | Check exact names in Blocks Cloud → Data Gateway |
 | `400` + `Variable "$input" of required type "XInsertInput!" was not provided` | Missing `variables` in the fetch body | Ensure `body: JSON.stringify({ query, variables })` |
 | `200` but `result.data` is null | GraphQL error — check `result.errors[0].message` | Log full response before parsing |
+| Bulk delete only removes one record | `deleteX(filter: "{}")` deletes exactly one document per call regardless of filter | Loop the delete call N times (once per record); fetch totalCount first to know N |
 
 ---
 
